@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jerónimo Asenjo — Portfolio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&family=Ubuntu:wght@500;700&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <div class="escena">
+
+    <!-- AVATAR: viaja entre la portada y el índice -->
+    <div class="avatar">
+      <img class="avatar__img avatar__img--saludo" src="img/avatar.png" alt="Avatar de Jerónimo Asenjo" />
+      <img class="avatar__img avatar__img--observa" src="img/avatar-observa.png" alt="" aria-hidden="true" />
+    </div>
+
+    <!-- PORTADA -->
+    <header class="hero">
+      <a href="https://github.com/JeroAsenjo7" target="_blank" rel="noopener" class="github reveal"
+        aria-label="GitHub de Jerónimo Asenjo">
+        <img src="/img/github.svg" alt="" />
+      </a>
+      <div class="contenedor hero__grid">
+
+        <!-- Lugar donde arranca el avatar -->
+        <div class="hero__avatar" aria-hidden="true"></div>
+
+        <div class="hero__contenido">
+          <h1 class="hero__nombre reveal"><span>Jerónimo</span> <span>Asenjo</span></h1>
+
+          <div class="hero__texto reveal">
+            <p>
+              Siempre me atrajo la posibilidad de transformar una idea abstracta en algo
+              que pueda experimentarse. Programar, para mí, es una forma de explorar esa posibilidad.
+            </p>
+          </div>
+
+          <div class="hero__botones reveal">
+            <a href="#indice" class="boton boton--principal">Explorar mi trabajo</a>
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=jeroasenjo@gmail.com" target="_blank" rel="noopener"
+              class="boton boton--secundario">Contactame</a>
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- ÍNDICE -->
+    <section class="indice" id="indice">
+      <div class="contenedor indice__grid">
+
+        <nav class="indice__contenido" aria-label="Índice del portfolio">
+          <h2 class="indice__titulo">Índice</h2>
+          <ul class="indice__lista">
+            <li><a href="#sobre-mi">Sobre mí</a></li>
+            <li><a href="#experiencia">Experiencia laboral</a></li>
+            <li><a href="#proyectos">Proyectos</a></li>
+            <li><a href="#cursos">Cursos</a></li>
+            <li><a href="#certificados">Certificados</a></li>
+          </ul>
+        </nav>
+
+        <!-- Lugar donde termina el avatar -->
+        <div class="indice__avatar" aria-hidden="true"></div>
+
+      </div>
+    </section>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

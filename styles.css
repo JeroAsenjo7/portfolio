@@ -1,0 +1,494 @@
+:root {
+  --azul-noche: #141e5a;
+  --azul: #3b478c;
+  --crema: #f5f1d4;
+  --amarillo: #fdbe00;
+  --naranja: #e18009;
+
+  --fuente-titulo: 'Ubuntu', sans-serif;
+  --fuente-texto: 'Montserrat', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--fuente-texto);
+  background: var(--azul);
+  color: var(--crema);
+  -webkit-font-smoothing: antialiased;
+}
+
+.contenedor {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 5vw, 4rem);
+}
+
+/* ---------- PORTADA ---------- */
+.hero {
+  position: relative;
+  min-height: auto;
+  display: flex;
+  background: var(--azul);
+  overflow: hidden;
+}
+
+/* ---------- LOGO GITHUB ---------- */
+.github {
+  position: absolute;
+  top: 1.75rem;
+  right: clamp(1.5rem, 5vw, 4rem);
+  z-index: 4;
+  display: block;
+  width: 36px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.github img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: brightness(0) invert(1);
+  transition: filter 0.3s ease;
+}
+
+.github.visible {
+  transition: transform 0.25s ease, opacity 0.8s ease;
+}
+
+.github.visible:hover {
+  transform: scale(1.12);
+}
+
+.github:focus-visible {
+  outline: 2px solid var(--amarillo);
+  outline-offset: 4px;
+}
+
+.hero__grid {
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  align-items: end;
+  gap: clamp(2rem, 4vw, 4rem);
+  padding-top: 6rem;
+}
+
+.hero__avatar {
+  height: 45vh;
+  max-height: 460px;
+  margin-bottom: 3rem;
+}
+
+.hero__contenido {
+  padding-bottom: 3rem;
+}
+
+.hero__nombre {
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 4.4vw, 4rem);
+  line-height: 1.1;
+  color: var(--amarillo);
+  white-space: nowrap;
+  margin-bottom: 1.75rem;
+}
+
+.hero__texto {
+  max-width: 56ch;
+}
+
+.hero__texto p {
+  font-size: clamp(0.98rem, 1.25vw, 1.1rem);
+  font-weight: 400;
+  line-height: 1.8;
+  color: var(--crema);
+}
+
+.hero__texto p+p {
+  margin-top: 1rem;
+}
+
+/* ---------- BOTONES ---------- */
+.hero__botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+.boton {
+  font-family: var(--fuente-texto);
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  padding: 0.9rem 1.9rem;
+  border-radius: 4px;
+  transition: background-color 0.25s ease, color 0.25s ease,
+    border-color 0.25s ease, transform 0.25s ease;
+}
+
+.boton--principal {
+  background: var(--amarillo);
+  color: var(--azul-noche);
+  border: 1.5px solid var(--amarillo);
+}
+
+.boton--principal:hover {
+  background: var(--naranja);
+  border-color: var(--naranja);
+  transform: translateY(-2px);
+}
+
+.boton--secundario {
+  background: transparent;
+  color: var(--crema);
+  border: 1.5px solid var(--crema);
+}
+
+.boton--secundario:hover {
+  background: var(--crema);
+  color: var(--azul-noche);
+  transform: translateY(-2px);
+}
+
+.boton:focus-visible {
+  outline: 2px solid var(--amarillo);
+  outline-offset: 3px;
+}
+
+/* ---------- AVATAR QUE ACOMPAÑA EL SCROLL ---------- */
+.escena {
+  position: relative;
+  overflow-x: clip;
+}
+
+.avatar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  pointer-events: none;
+  will-change: transform;
+  opacity: 0;
+  transition: opacity 0.8s ease;
+}
+
+.avatar.listo {
+  opacity: 1;
+}
+
+.avatar.adelante {
+  z-index: 3;
+}
+
+.avatar__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: bottom center;
+  transition: opacity 0.45s ease;
+}
+
+.avatar__img--observa {
+  opacity: 0;
+}
+
+.avatar.observando .avatar__img--saludo {
+  opacity: 0;
+}
+
+.avatar.observando .avatar__img--observa {
+  opacity: 1;
+}
+
+/* El texto siempre por encima del avatar */
+.hero__contenido,
+.indice__contenido {
+  position: relative;
+  z-index: 2;
+}
+
+/* ---------- ÍNDICE ---------- */
+.indice {
+  min-height: auto;
+  display: flex;
+  background: var(--azul);
+}
+
+.indice__grid {
+  display: grid;
+  grid-template-columns: 9fr 4fr;
+  align-items: center;
+  gap: clamp(2rem, 4vw, 4rem);
+  padding-top: 2rem;
+  padding-bottom: 5rem;
+}
+
+.indice__contenido {
+  padding-bottom: 0;
+}
+
+.indice__titulo {
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  color: var(--amarillo);
+  margin-bottom: 2.5rem;
+}
+
+.indice__lista {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: 1rem;
+}
+
+.indice__lista li {
+  display: flex;
+  align-items: center;
+}
+
+/* Líneas cortitas verticales entre ítems */
+.indice__lista li+li::before {
+  content: "";
+  width: 1px;
+  height: 1.2em;
+  background: rgba(245, 241, 212, 0.45);
+  margin: 0 clamp(0.9rem, 1.8vw, 1.6rem);
+}
+
+.indice__lista a {
+  position: relative;
+  font-family: var(--fuente-texto);
+  font-weight: 500;
+  font-size: clamp(0.95rem, 1.25vw, 1.1rem);
+  color: var(--crema);
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0.3rem 0;
+  transition: color 0.25s ease;
+}
+
+.indice__lista a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1.5px;
+  background: var(--amarillo);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.indice__lista a:hover {
+  color: var(--amarillo);
+}
+
+.indice__lista a:hover::after {
+  transform: scaleX(1);
+}
+
+.indice__avatar {
+  align-self: center;
+  height: 38vh;
+  max-height: 360px;
+}
+
+/* ---------- ANIMACIÓN DE ENTRADA ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 700px) {
+  .contenedor {
+    padding: 0 1rem;
+  }
+
+  .hero {
+    min-height: auto;
+  }
+
+  .github {
+    top: 1.25rem;
+    right: 1rem;
+    width: 30px;
+  }
+
+  .hero__grid {
+    grid-template-columns: 36% minmax(0, 1fr);
+    gap: 0.75rem;
+    padding-top: 4rem;
+  }
+
+  .hero__avatar {
+    height: 30svh;
+    max-height: none;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero__contenido {
+    min-width: 0;
+    text-align: right;
+    padding-bottom: 2.5rem;
+  }
+
+  .hero__nombre {
+    white-space: normal;
+    font-size: clamp(2.6rem, 17vw, 4.4rem);
+    line-height: 1.05;
+    margin-bottom: 1.75rem;
+    margin-left: -60%;
+  }
+
+  .hero__nombre span {
+    display: block;
+  }
+
+  .hero__texto {
+    max-width: none;
+    text-align: left;
+  }
+
+  .hero__texto p {
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+
+  .hero__texto p+p {
+    margin-top: 0.7rem;
+  }
+
+  /* Botones chicos, uno al lado del otro, ajustados al ancho disponible */
+  .hero__botones {
+    flex-wrap: nowrap;
+    gap: 0.4rem;
+    margin-top: 1.5rem;
+  }
+
+  .boton {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.68rem;
+    line-height: 1.25;
+    letter-spacing: 0;
+    padding: 0.6rem 0.5rem;
+  }
+
+  /* Índice en vertical, avatar a la derecha */
+  .indice {
+    min-height: auto;
+  }
+
+  .indice__grid {
+    grid-template-columns: minmax(0, 1fr) 36%;
+    gap: 0.75rem;
+    padding-top: 1.5rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .indice__contenido {
+    padding-bottom: 0;
+  }
+
+  .indice__titulo {
+    font-size: clamp(2rem, 10vw, 2.6rem);
+    margin-bottom: 1.5rem;
+  }
+
+  .indice__lista {
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 0;
+  }
+
+  .indice__lista li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* Líneas cortitas horizontales entre ítems */
+  .indice__lista li+li::before {
+    width: 2.5rem;
+    height: 1px;
+    margin: 0.9rem 0;
+  }
+
+  .indice__lista a {
+    font-size: 0.95rem;
+  }
+
+  .indice__avatar {
+    align-self: center;
+    height: 28svh;
+    max-height: none;
+  }
+}
+
+/* ---------- EFECTO DE BOTONES EN PANTALLAS TÁCTILES ---------- */
+@media (hover: none) {
+  .boton {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .boton--principal:active {
+    background: var(--naranja);
+    border-color: var(--naranja);
+    transform: scale(0.96);
+  }
+
+  .boton--secundario:active {
+    background: var(--crema);
+    color: var(--azul-noche);
+    transform: scale(0.96);
+  }
+
+  .github {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .github.visible:active {
+    transform: scale(1.12);
+  }
+
+}
