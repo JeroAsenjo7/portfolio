@@ -12,7 +12,10 @@ const escena = document.querySelector('.escena');
 const avatar = document.querySelector('.avatar');
 const lugarInicio = document.querySelector('.hero__avatar');
 const lugarFin = document.querySelector('.indice__avatar');
-const indice = document.querySelector('#indice');
+
+// Ajustes de la animación
+const INICIO_MOVIMIENTO_X = 0.45; // cuándo empieza a ir hacia la derecha (0 a 1)
+const CAMBIO_DE_POSE = 0.5;       // cuándo pasa de saludar a observar (0 a 1)
 
 let medidas = null;
 let pendiente = false;
@@ -25,32 +28,43 @@ function posicion(el, base) {
 
 function medir() {
   const base = escena.getBoundingClientRect();
+  const escenaTop = base.top + window.scrollY;
+  const inicio = posicion(lugarInicio, base);
+  const fin = posicion(lugarFin, base);
+
+  // El recorrido termina cuando el avatar observando queda centrado en la pantalla
+  const hastaFin = fin.y + fin.h / 2 - window.innerHeight / 2;
+
+  // Sin pedir más scroll del que la página realmente tiene
+  const scrollMaximo = document.documentElement.scrollHeight - window.innerHeight - escenaTop;
+
   medidas = {
-    inicio: posicion(lugarInicio, base),
-    fin: posicion(lugarFin, base),
-    escenaTop: base.top + window.scrollY,
-    recorrido: indice.getBoundingClientRect().top - base.top
+    inicio,
+    fin,
+    escenaTop,
+    recorrido: Math.max(1, Math.min(hastaFin, scrollMaximo))
   };
 }
 
+const limitar = t => Math.min(Math.max(t, 0), 1);
 const mezclar = (a, b, t) => a + (b - a) * t;
 const suavizar = t => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
 
 function actualizar() {
   pendiente = false;
+  if (!medidas) return;
+
   const { inicio, fin, escenaTop, recorrido } = medidas;
 
   // 0 = en la portada, 1 = en el índice
-  const progreso = Math.min(Math.max((window.scrollY - escenaTop) / recorrido, 0), 1);
+  const progreso = limitar((window.scrollY - escenaTop) / recorrido);
   const suave = suavizar(progreso);
 
-  // El movimiento hacia la derecha arranca recién en la segunda mitad del scroll,
-  // cuando los botones ya subieron
-  const avanceX = Math.min(Math.max((progreso - 0.45) / 0.55, 0), 1);
-  const suaveX = suavizar(avanceX);
+  // Hacia la derecha recién en la segunda parte, cuando los botones ya subieron
+  const suaveX = suavizar(limitar((progreso - INICIO_MOVIMIENTO_X) / (1 - INICIO_MOVIMIENTO_X)));
 
   const x = mezclar(inicio.x, fin.x, suaveX);
-  const y = mezclar(inicio.y, fin.y, progreso);
+  const y = mezclar(inicio.y, fin.y, suave);
   const w = mezclar(inicio.w, fin.w, suave);
   const h = mezclar(inicio.h, fin.h, suave);
 
@@ -58,9 +72,10 @@ function actualizar() {
   avatar.style.height = `${h}px`;
   avatar.style.transform = `translate3d(${x}px, ${y}px, 0)`;
 
-  avatar.classList.toggle('observando', progreso > 0.5);
+  avatar.classList.toggle('observando', progreso > CAMBIO_DE_POSE);
   avatar.classList.toggle('adelante', progreso > 0);
 }
+
 function alScrollear() {
   if (!pendiente) {
     pendiente = true;
@@ -68,12 +83,24 @@ function alScrollear() {
   }
 }
 
-function iniciar() {
+function recalcular() {
   medir();
   actualizar();
+}
+
+function iniciar() {
+  recalcular();
   setTimeout(() => avatar.classList.add('listo'), 150);
 }
 
 window.addEventListener('scroll', alScrollear, { passive: true });
-window.addEventListener('resize', () => { medir(); actualizar(); });
-window.addEventListener('load', iniciar);   // espera fuentes e imágenes para medir bien
+window.addEventListener('resize', recalcular);
+window.addEventListener('load', iniciar);
+
+// Vuelve a medir si cambia el tamaño de la página (imágenes, fuentes, nuevas secciones)
+if ('ResizeObserver' in window) {
+  new ResizeObserver(recalcular).observe(escena);
+}
+if (document.fonts) {
+  document.fonts.ready.then(recalcular);
+}
